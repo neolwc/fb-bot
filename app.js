@@ -255,6 +255,14 @@ function receivedMessage(event) {
     // keywords and send back the corresponding example. Otherwise, just echo
     // the text we received.
     switch (messageText) {
+      case 'Rachel':
+        rachel(senderID);
+        break;
+
+      case 'rachel':
+        rachel(senderID);
+        break;
+
       case 'image':
         sendImageMessage(senderID);
         break;
@@ -313,6 +321,17 @@ function receivedMessage(event) {
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
   }
+}
+
+
+/*
+ * Rachel
+ *
+ */
+function rachel(senderID) {
+  var n = Math.floor((new Date() - new Date('2016-05-19 EDT')) / (1000 * 60 * 60 * 24));
+  var messageText = `Neo has been with Rachel for ${n} days.`;
+  sendTextMessage(senderID, messageText);
 }
 
 
