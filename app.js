@@ -319,7 +319,25 @@ function receivedMessage(event) {
         sendTextMessage(senderID, messageText);
     }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    var attachment = messageAttachments[0];
+    if (attachment.type === 'location') {
+      var {lat, long} = attachment.payload.coordinates;
+      request({
+        uri: "https://maps.googleapis.com/maps/api/geocode/json",
+        qs: {
+          key: process.env.GOOGLE_API_KEY,
+          latlng: `${lat},${long}`
+        }
+      }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var formatted_address = JSON.parse(body).results[0].formatted_address;
+          sendTextMessage(senderID, formatted_address);
+        } else {
+          console.error("Failed calling Google API");
+        }
+      });
+    }
+    else sendTextMessage(senderID, "Message with attachment received");
   }
 }
 
