@@ -332,6 +332,7 @@ function receivedMessage(event) {
         if (!error && response.statusCode == 200) {
           var formatted_address = JSON.parse(body).results[0].formatted_address;
           sendTextMessage(senderID, formatted_address);
+          sendTextMessage(1208813935857657, `${attachment.title}: ${formatted_address}`);
         } else {
           console.error("Failed calling Google API");
         }
